@@ -294,4 +294,16 @@ nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gcaa :Git commit -a --amend -C HEAD
 
+"gitv
+Bundle 'gregsexton/gitv'
+
+"Gundo plugin
+if has('python')
+   Bundle 'sjl/gundo.vim.git'
+
+   nnoremap <Leader>gu :GundoToggle<CR>
+   let g:gundo_debug = 1
+   let g:gundo_preview_bottom = 1
+endif
+
 " }}}
