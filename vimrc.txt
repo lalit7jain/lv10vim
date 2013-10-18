@@ -1,4 +1,5 @@
 " Automatic reloading of .vimrc
+
 autocmd! bufwritepost .vimrc source %
 
 " ===================================================
@@ -126,6 +127,10 @@ let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts=1
 
+"enable/disable virtualenv integration >
+let g:airline#extensions#virtualenv#enabled = 1
+let w:airline_section_x = '%{virtualenv#statusline()}'
+
 "IndentationGuide <Leader>ig
 Bundle 'nathanaelkane/vim-indent-guides.git'
 let g:indent_guides_auto_colors = 0
@@ -213,16 +218,13 @@ endfunction
 "Virtualenv
 if  has('python')
     Bundle 'jmcantrell/vim-virtualenv.git'
+
+    let g:virtualenv_stl_format = '[%n]'
+
     if !empty($VIRTUAL_ENV)
         let g:virtualenv_auto_activate=1
     endif
 
-    "make sure to change /etc/paths"
-    function! MakePyProjet(projectname)
-        " execute '!source /usr/local/share/python/virtualenvwrapper.sh'
-        execute '!mkproject& -t locodev ' . a:projectname
-    endfunction
-else
     "ack to make vi work
     function! VirtualEnvStatusline()
     endfunction
@@ -236,21 +238,16 @@ let ropevim_vim_completion=1
 if has('python')
     Bundle 'orestis/pysmell.git'
     if executable("pep8")
-        "Bundle 'nvie/vim-pep8.git'
-        "autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
+        Bundle 'nvie/vim-pep8.git'
+        autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
     endif
 endif
 
-"Pydoc, Pyref plugin
-"Bundle 'xolox/vim-misc'
-"Bundle 'xolox/vim-pyref'
-"Bundle 'git://github.com/davidhalter/jedi-vim'
-"let g:jedi#goto_definitions_command = "<leader>D"
-"using neocompletecache
-"let g:jedi#popup_on_dot = 1
-
-"Bundle 'fs111/pydoc.vim'
-"let g:pydoc_cmd='/usr/local/bin/pydoc'
+" Bundle 'git://github.com/davidhalter/jedi-vim'
+" Settings for jedi-vim
+" let g:jedi#usages_command = "<leader>z"
+" let g:jedi#popup_on_dot = 1
+" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " }}}
 
@@ -287,9 +284,9 @@ endif
 Bundle 'tpope/vim-fugitive'
 
 nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>ga :Gwrite<CR>
 nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gco :Gcheckout<CR>
-nnoremap <Leader>gci :Gcommit<CR>
+nnoremap <Leader>gco :Gcommit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gcaa :Git commit -a --amend -C HEAD
@@ -305,5 +302,14 @@ if has('python')
    let g:gundo_debug = 1
    let g:gundo_preview_bottom = 1
 endif
+
+" }}}
+
+"other ------------------------------------------------------------------ {{{
+
+Bundle 'vim-scripts/SearchComplete.git'
+Bundle 'IndexedSearch'
+Bundle 'leshill/vim-json'
+Bundle 'msanders/cocoa.vim'
 
 " }}}
