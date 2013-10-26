@@ -1,10 +1,10 @@
 " Automatic reloading of .vimrc
-
 autocmd! bufwritepost .vimrc source %
 
 " ===================================================
 "  Bundle Basic Config
 " ===================================================
+
 set nocompatible               " be iMproved
 filetype off                   " required!
 filetype plugin indent on      " required!
@@ -20,6 +20,9 @@ Bundle 'gmarik/vundle'
 " ===================================================
 "  Look and feel
 " ===================================================
+
+"Vim colorscheme and them ------------------------------------------------------{{{
+
 Bundle 'tomasr/molokai'
 
 " Show whitespace
@@ -32,9 +35,14 @@ let g:molokai_original=1
 set t_Co=256
 colorscheme molokai
 
+" }}}
+
 " ===================================================
 "  Vim Settings
 " ===================================================
+
+"Vim General Settigns ---------------------------------------------------------{{{
+
 syntax on
 
 " Better copy & paste
@@ -110,22 +118,52 @@ set noswapfile
 vnoremap < <gv  " better indentation
 vnoremap > >gv  " better indentation
 
+
+" Ctrlp
+Bundle 'ctrlp.vim'
+let g:ctrlp_map = '<leader>,'
+let g:ctrlp_max_height = 20
+let g:ctrlp_open_new_file = 'v'
+
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+
+" }}}
+
 " ===================================================
-"  Powerline Settigs
+"  Powerline and Bufferline Settigs
 " ===================================================
 
-"Visualization ---------------------------------------------------------{{{
+"Vim airline Powerline ---------------------------------------------------------{{{
 
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
 
 " Display on 1 window also
-"let g:Powerline_symbols = 'fancy'
 set laststatus=2
+let g:Powerline_symbols = 'fancy'
 let g:airline_theme='powerlineish'
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts=1
+
+" vim-powerline symbols
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+   let g:airline_left_sep = '⮀'
+   let g:airline_left_alt_sep = '⮁'
+   let g:airline_right_sep = '⮂'
+   let g:airline_right_alt_sep = '⮃'
+   let g:airline_symbols.branch = '⭠'
+   let g:airline_symbols.readonly = '⭤'
+   let g:airline_symbols.linenr = '⭡'
+   let g:airline_symbols.whitespace = 'Ξ'
+   let g:airline_symbols.paste = 'ρ'
+endif
+
+" change the text for when no branch is detected >
+let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+
 
 "enable/disable virtualenv integration >
 let g:airline#extensions#virtualenv#enabled = 1
@@ -208,6 +246,7 @@ endif
 
 
 "Python Settings/Plugins --------------------------------------------- {{{
+
 function! PythonTidySaver()
     let oldpos=getpos('.')
     %!PythonTidy
@@ -231,23 +270,45 @@ if  has('python')
 
 endif
 
+
+" Debugging
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
+
 "Ropevim
 let ropevim_vim_completion=1
 
 "Pep8 plugin # using flake8
-if has('python')
-    Bundle 'orestis/pysmell.git'
-    if executable("pep8")
-        Bundle 'nvie/vim-pep8.git'
-        autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
-    endif
-endif
+" if has('python')
+"     Bundle 'orestis/pysmell.git'
+"     if executable("pep8")
+"         Bundle 'nvie/vim-pep8.git'
+"         autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
+"     endif
+" endif
 
 " Bundle 'git://github.com/davidhalter/jedi-vim'
 " Settings for jedi-vim
 " let g:jedi#usages_command = "<leader>z"
-" let g:jedi#popup_on_dot = 1
-" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first =
+
+" Better navigating through omnicomplete option list
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+"set completeopt=longest,menuone
+"function! OmniPopup(action)
+"    if pumvisible()
+"        if a:action == 'j'
+"            return "\<C-N>"
+"        elseif a:action == 'k'
+"            return "\<C-P>"
+"        endif
+"    endif
+"    return a:action
+"endfunction
+"
+"inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+"inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 " }}}
 
@@ -305,11 +366,39 @@ endif
 
 " }}}
 
+
+" Syntastic plugin --------------------------------------------------------- {{{
+
+Bundle 'scrooloose/syntastic.git'
+ "checks syntax for multiple file type install
+ "   - cpp , c g++, gcc
+ "   - flake8 or pyflakes or pylint for python
+ "   - jsonlint for json
+ "   - java ?? / use eclim
+ "   - jslint for javascript
+
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_enable_balloons=1
+let g:syntastic_python_checkers=['flake8', 'pyflakes']
+
+highlight SyntasticErrorSign guifg=white guibg=red
+
+" }}}
+
+
+" NerdCommenter  plugin --------------------------------------------------------- {{{
+
+
+" }}}
+
+
 "other ------------------------------------------------------------------ {{{
 
 Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
 Bundle 'msanders/cocoa.vim'
+Bundle 'airblade/vim-gitgutter'
 
 " }}}
