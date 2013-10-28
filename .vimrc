@@ -5,6 +5,8 @@ autocmd! bufwritepost .vimrc source %
 "  Bundle Basic Config
 " ===================================================
 
+"Vim / Bundle Basic config -----------------------------------------------------{{{
+
 set nocompatible               " be iMproved
 filetype off                   " required!
 filetype plugin indent on      " required!
@@ -16,6 +18,8 @@ call vundle#rc()
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
+
+" }}}
 
 " ===================================================
 "  Look and feel
@@ -131,6 +135,7 @@ set wildignore+=*/coverage/*
 
 " }}}
 
+
 " ===================================================
 "  Powerline and Bufferline Settigs
 " ===================================================
@@ -142,7 +147,6 @@ Bundle 'bling/vim-airline'
 
 " Display on 1 window also
 set laststatus=2
-let g:Powerline_symbols = 'fancy'
 let g:airline_theme='powerlineish'
 
 let g:airline#extensions#tabline#enabled = 1
@@ -150,13 +154,13 @@ let g:airline#extensions#tabline#enabled = 1
 " vim-powerline symbols
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
-   let g:airline_left_sep = '⮀'
-   let g:airline_left_alt_sep = '⮁'
-   let g:airline_right_sep = '⮂'
-   let g:airline_right_alt_sep = '⮃'
-   let g:airline_symbols.branch = '⭠'
-   let g:airline_symbols.readonly = '⭤'
-   let g:airline_symbols.linenr = '⭡'
+   let g:airline_left_sep = ''
+   let g:airline_left_alt_sep = ''
+   let g:airline_right_sep = ''
+   let g:airline_right_alt_sep = ''
+   let g:airline_symbols.branch = ''
+   let g:airline_symbols.readonly = ''
+   let g:airline_symbols.linenr = ''
    let g:airline_symbols.whitespace = 'Ξ'
    let g:airline_symbols.paste = 'ρ'
 endif
@@ -383,6 +387,14 @@ let g:syntastic_enable_balloons=1
 let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
+
+" }}}
+
+
+" Comments plugin --------------------------------------------------------- {{{
+
+Bundle 'scrooloose/nerdcommenter'
+
 
 " }}}
 
