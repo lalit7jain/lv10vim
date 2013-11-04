@@ -154,13 +154,13 @@ let g:airline#extensions#tabline#enabled = 1
 " vim-powerline symbols
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
-   let g:airline_left_sep = '⮀'
-   let g:airline_left_alt_sep = '⮁'
-   let g:airline_right_sep = '⮂'
-   let g:airline_right_alt_sep = '⮃'
-   let g:airline_symbols.branch = '⭠'
+   let g:airline_left_sep = ''
+   let g:airline_left_alt_sep = ''
+   let g:airline_right_sep = ''
+   let g:airline_right_alt_sep = ''
+   let g:airline_symbols.branch = ''
    let g:airline_symbols.readonly = ''
-   let g:airline_symbols.linenr = '⭡'
+   let g:airline_symbols.linenr = ''
    let g:airline_symbols.whitespace = 'Ξ'
    let g:airline_symbols.paste = 'ρ'
 endif
@@ -383,7 +383,7 @@ Bundle 'scrooloose/syntastic.git'
 
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
-let g:syntastic_enable_balloons=1
+let g:syntastic_loc_list_height=5
 let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
