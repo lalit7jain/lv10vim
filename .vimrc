@@ -382,8 +382,7 @@ Bundle 'scrooloose/syntastic.git'
  "   - jslint for javascript
 
 let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_loc_list_height=5
+let g:syntastic_auto_loc_list=2
 let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
