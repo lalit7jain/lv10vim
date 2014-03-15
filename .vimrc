@@ -4,6 +4,9 @@ autocmd! bufwritepost .vimrc source %
 " ===================================================
 "  Bundle Basic Config
 " ===================================================
+
+"Vim / Bundle Basic config -----------------------------------------------------{{{
+
 set nocompatible               " be iMproved
 filetype off                   " required!
 filetype plugin indent on      " required!
@@ -16,9 +19,14 @@ call vundle#rc()
 " required!
 Bundle 'gmarik/vundle'
 
+" }}}
+
 " ===================================================
 "  Look and feel
 " ===================================================
+
+"Vim colorscheme and them ------------------------------------------------------{{{
+
 Bundle 'tomasr/molokai'
 
 " Show whitespace
@@ -31,9 +39,14 @@ let g:molokai_original=1
 set t_Co=256
 colorscheme molokai
 
+" }}}
+
 " ===================================================
 "  Vim Settings
 " ===================================================
+
+"Vim General Settigns ---------------------------------------------------------{{{
+
 syntax on
 
 " Better copy & paste
@@ -109,22 +122,56 @@ set noswapfile
 vnoremap < <gv  " better indentation
 vnoremap > >gv  " better indentation
 
+
+" Ctrlp
+Bundle 'ctrlp.vim'
+let g:ctrlp_map = '<leader>,'
+let g:ctrlp_max_height = 20
+let g:ctrlp_open_new_file = 'v'
+
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+
+" }}}
+
+
 " ===================================================
-"  Powerline Settigs
+"  Powerline and Bufferline Settigs
 " ===================================================
 
-"Visualization ---------------------------------------------------------{{{
+"Vim airline Powerline ---------------------------------------------------------{{{
 
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
 
 " Display on 1 window also
-"let g:Powerline_symbols = 'fancy'
 set laststatus=2
 let g:airline_theme='powerlineish'
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts=1
+
+" vim-powerline symbols
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+   let g:airline_left_sep = ''
+   let g:airline_left_alt_sep = ''
+   let g:airline_right_sep = ''
+   let g:airline_right_alt_sep = ''
+   let g:airline_symbols.branch = ''
+   let g:airline_symbols.readonly = ''
+   let g:airline_symbols.linenr = ''
+   let g:airline_symbols.whitespace = 'Ξ'
+   let g:airline_symbols.paste = 'ρ'
+endif
+
+" change the text for when no branch is detected >
+let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+
+
+"enable/disable virtualenv integration >
+let g:airline#extensions#virtualenv#enabled = 1
+let w:airline_section_x = '%{virtualenv#statusline()}'
 
 "IndentationGuide <Leader>ig
 Bundle 'nathanaelkane/vim-indent-guides.git'
@@ -203,6 +250,7 @@ endif
 
 
 "Python Settings/Plugins --------------------------------------------- {{{
+
 function! PythonTidySaver()
     let oldpos=getpos('.')
     %!PythonTidy
@@ -213,44 +261,58 @@ endfunction
 "Virtualenv
 if  has('python')
     Bundle 'jmcantrell/vim-virtualenv.git'
+
+    let g:virtualenv_stl_format = '[%n]'
+
     if !empty($VIRTUAL_ENV)
         let g:virtualenv_auto_activate=1
     endif
 
-    "make sure to change /etc/paths"
-    function! MakePyProjet(projectname)
-        " execute '!source /usr/local/share/python/virtualenvwrapper.sh'
-        execute '!mkproject& -t locodev ' . a:projectname
-    endfunction
-else
     "ack to make vi work
     function! VirtualEnvStatusline()
     endfunction
 
 endif
 
+
+" Debugging
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
+
 "Ropevim
 let ropevim_vim_completion=1
 
 "Pep8 plugin # using flake8
-if has('python')
-    Bundle 'orestis/pysmell.git'
-    if executable("pep8")
-        "Bundle 'nvie/vim-pep8.git'
-        "autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
-    endif
-endif
+" if has('python')
+"     Bundle 'orestis/pysmell.git'
+"     if executable("pep8")
+"         Bundle 'nvie/vim-pep8.git'
+"         autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
+"     endif
+" endif
 
-"Pydoc, Pyref plugin
-"Bundle 'xolox/vim-misc'
-"Bundle 'xolox/vim-pyref'
-"Bundle 'git://github.com/davidhalter/jedi-vim'
-"let g:jedi#goto_definitions_command = "<leader>D"
-"using neocompletecache
-"let g:jedi#popup_on_dot = 1
+" Bundle 'git://github.com/davidhalter/jedi-vim'
+" Settings for jedi-vim
+" let g:jedi#usages_command = "<leader>z"
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first =
 
-"Bundle 'fs111/pydoc.vim'
-"let g:pydoc_cmd='/usr/local/bin/pydoc'
+" Better navigating through omnicomplete option list
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+"set completeopt=longest,menuone
+"function! OmniPopup(action)
+"    if pumvisible()
+"        if a:action == 'j'
+"            return "\<C-N>"
+"        elseif a:action == 'k'
+"            return "\<C-P>"
+"        endif
+"    endif
+"    return a:action
+"endfunction
+"
+"inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+"inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 " }}}
 
@@ -287,9 +349,9 @@ endif
 Bundle 'tpope/vim-fugitive'
 
 nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>ga :Gwrite<CR>
 nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gco :Gcheckout<CR>
-nnoremap <Leader>gci :Gcommit<CR>
+nnoremap <Leader>gco :Gcommit<CR>
 nnoremap <Leader>gl :Glog<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap <Leader>gcaa :Git commit -a --amend -C HEAD
@@ -305,5 +367,44 @@ if has('python')
    let g:gundo_debug = 1
    let g:gundo_preview_bottom = 1
 endif
+
+" }}}
+
+
+" Syntastic plugin --------------------------------------------------------- {{{
+
+Bundle 'scrooloose/syntastic.git'
+ "checks syntax for multiple file type install
+ "   - cpp , c g++, gcc
+ "   - flake8 or pyflakes or pylint for python
+ "   - jsonlint for json
+ "   - java ?? / use eclim
+ "   - jslint for javascript
+
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
+let g:syntastic_python_checkers=['flake8', 'pyflakes']
+
+highlight SyntasticErrorSign guifg=white guibg=red
+
+" }}}
+
+
+" NerdCommenter plugin --------------------------------------------------------- {{{
+
+Bundle 'scrooloose/nerdcommenter'
+
+
+" }}}
+
+
+
+"other ------------------------------------------------------------------ {{{
+
+Bundle 'vim-scripts/SearchComplete.git'
+Bundle 'IndexedSearch'
+Bundle 'leshill/vim-json'
+Bundle 'msanders/cocoa.vim'
+Bundle 'airblade/vim-gitgutter'
 
 " }}}
