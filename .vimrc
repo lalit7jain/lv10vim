@@ -291,11 +291,11 @@ let ropevim_vim_completion=1
 "     endif
 " endif
 
-" Bundle 'git://github.com/davidhalter/jedi-vim'
-" Settings for jedi-vim
-" let g:jedi#usages_command = "<leader>z"
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#popup_select_first =
+Bundle 'git://github.com/davidhalter/jedi-vim'
+"Settings for jedi-vim
+let g:jedi#usages_command = "<leader>z"
+let g:jedi#goto_definitions_command = "<leader>D"
+let g:jedi#popup_on_dot = 0
 
 " Better navigating through omnicomplete option list
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
