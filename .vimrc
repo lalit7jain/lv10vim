@@ -12,7 +12,7 @@ filetype off                   " required!
 filetype plugin indent on      " required!
 set encoding=utf-8             " Necessary to show Unicode glyphs
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -25,9 +25,10 @@ Bundle 'gmarik/vundle'
 "  Look and feel
 " ===================================================
 
-"Vim colorscheme and them ------------------------------------------------------{{{
+"Vim colorscheme --------------------------------------------------------------{{{
 
 Bundle 'tomasr/molokai'
+"Bundle 'morhetz/gruvbox'
 
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
@@ -36,8 +37,18 @@ au InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Use original molokai background color (use 1)
 let g:molokai_original=1
+let g:molokai_original=0
 set t_Co=256
 colorscheme molokai
+
+"let g:gruvbox_bold=1
+"let g:gruvbox_italic=1
+"let g:gruvbox_underline=1
+"let g:gruvbox_undercurl=1
+
+"set t_Co=256
+"colorscheme gruvbox
+
 
 " }}}
 
@@ -140,44 +151,45 @@ set wildignore+=*/coverage/*
 "  Powerline and Bufferline Settigs
 " ===================================================
 
-"Vim airline Powerline ---------------------------------------------------------{{{
+"Vim Powerline ---------------------------------------------------------{{{
 
-"Bundle 'Lokaltog/vim-powerline'
-Bundle 'bling/vim-airline'
+Bundle 'Lokaltog/vim-powerline'
 
-" Display on 1 window also
-set laststatus=2
-let g:airline_theme='powerlineish'
+set laststatus=2 " Display on 1 window also
+set showtabline=2 " Always display the tabline, even if there is only one tab.
 
-let g:airline#extensions#tabline#enabled = 1
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
 
-" vim-powerline symbols
-if !exists('g:airline_symbols')
-   let g:airline_symbols = {}
-   let g:airline_left_sep = ''
-   let g:airline_left_alt_sep = ''
-   let g:airline_right_sep = ''
-   let g:airline_right_alt_sep = ''
-   let g:airline_symbols.branch = ''
-   let g:airline_symbols.readonly = ''
-   let g:airline_symbols.linenr = ''
-   let g:airline_symbols.whitespace = 'Ξ'
-   let g:airline_symbols.paste = 'ρ'
-endif
-
-" change the text for when no branch is detected >
-let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+let g:Powerline_symbols = 'fancy'
 
 
-"enable/disable virtualenv integration >
-let g:airline#extensions#virtualenv#enabled = 1
-let w:airline_section_x = '%{virtualenv#statusline()}'
+"let g:airline_theme='powerlineish'
 
-"IndentationGuide <Leader>ig
-Bundle 'nathanaelkane/vim-indent-guides.git'
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
+"let g:airline#extensions#tabline#enabled = 1
+
+"" vim-powerline symbols
+"if !exists('g:airline_symbols')
+   "let g:airline_symbols = {}
+   "let g:airline_left_sep = '▶'
+   "let g:airline_left_alt_sep = '»'
+   "let g:airline_right_sep = '◀'
+   "let g:airline_right_alt_sep = '«'
+   "let g:airline_symbols.branch = '⎇'
+   "let g:airline_symbols.readonly = ''
+   "let g:airline_symbols.linenr = '␤'
+   "let g:airline_symbols.whitespace = 'Ξ'
+   "let g:airline_symbols.paste = 'ρ'
+"endif
+
+"" change the text for when no branch is detected >
+"let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+
+
+""enable/disable virtualenv integration >
+"let g:airline#extensions#virtualenv#enabled = 1
+"let w:airline_section_x = '%{virtualenv#statusline()}'
 
 " }}}
 
@@ -394,9 +406,12 @@ highlight SyntasticErrorSign guifg=white guibg=red
 
 Bundle 'scrooloose/nerdcommenter'
 
+let NERDSpaceDelims=0
+" let NERDDefaultNesting=0
+" let NERDRPlace=""
+" let NERDLPlace=" "
 
 " }}}
-
 
 
 "other ------------------------------------------------------------------ {{{
@@ -406,5 +421,12 @@ Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
 Bundle 'msanders/cocoa.vim'
 Bundle 'airblade/vim-gitgutter'
+
+"IndentationGuide <Leader>ig
+Bundle 'nathanaelkane/vim-indent-guides.git'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
+
 
 " }}}
