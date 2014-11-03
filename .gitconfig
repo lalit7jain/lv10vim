@@ -1,0 +1,43 @@
+[alias]
+    st = status
+    s = status --short
+    ci = commit
+    br = branch
+    co = checkout
+    files = ls-files
+    lg = log --graph --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lgn = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+    lgs = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -15
+    lgsa = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -15
+    ix = diff --cached
+    stash-unapply = !git stash show -p | git apply --reverse
+    root = !pwd
+    fmerge = merge --ff-only
+    subgit-update = !git push origin :refs/heads/dummy && git fetch
+    find = !git rev-list --all --abbrev-commit | xargs git grep -F
+    pp = show --name-status
+    ppo = show --name-status --oneline
+    who = shortlog -s --
+
+
+[color]
+    ui = true
+
+[help]
+    autocorrect = 1
+
+[user]
+    name = Luis Villamarin\n
+    email = luisvillamrin@gmail.com
+
+[core]
+    editor = vim
+    excludesfile = /home/lv10/.gitignore
+
+[push]
+    # requires git > 1.8.0
+    # default = simple
+
+# [credential]
+#	helper = cache --timeout=3600
