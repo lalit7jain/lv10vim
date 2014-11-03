@@ -60,6 +60,10 @@ colorscheme molokai
 
 syntax on
 
+" Set a visual bell to replace the standard beep (like when ESC is pressed a
+" few times
+set novb
+
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
