@@ -119,6 +119,7 @@ fi
 
 ### lv10 - aliases
 alias ll='ls -la --color'
+alias ls='ls --color'
 
 ### lv10 - virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
