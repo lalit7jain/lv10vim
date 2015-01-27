@@ -60,7 +60,7 @@ yellow=$(tput setaf 3)
 blue=$(tput setaf 4)
 purple=$(tput setaf 5)
 white=$(tput setaf 7)
-gray="\e[01;30m\]"
+gray="\e[01;30m"
 
 export PS1="\[$(tput bold)\]\[$gray\]\A \[$gray\][\[$green\]\u\[$red\]@\[$green\]\h\[$red\]: \[$blue\]\W\[$gray\]]\[$blue\]\n\\$ \[$(tput sgr0)\]"
 
@@ -94,8 +94,8 @@ export PS1="\[$(tput bold)\]\[$gray\]\A \[$gray\][\[$green\]\u\[$red\]@\[$green\
 
 # some more ls aliases
 #alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias la='ls -A --color'
+alias l='ls -CF --color'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -117,8 +117,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-### lv10 shortcuts
-#alias ll="ls -la --color"
+### lv10 - aliases
+alias ll='ls -la --color'
 
 ### lv10 - virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
