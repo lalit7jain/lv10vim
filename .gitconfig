@@ -33,7 +33,7 @@
 
 [core]
     editor = vim
-    excludesfile = /home/lv10/.gitignore
+    excludesfile = /home/luis/.gitignore
 
 [push]
     # requires git > 1.8.0
