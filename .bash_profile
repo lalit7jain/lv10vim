@@ -24,7 +24,8 @@ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias ll='ls -la'
 
 # lv10: racket
-alias racket='/Applications/Racket\ v6.1.1/bin/racket -il xrepl'
+alias racket='/Applications/Racket\ v6.1.1/bin/racket'
+alias racketx='/Applications/Racket\ v6.1.1/bin/racket -il xrepl'
 
 # lv10: Allow colors to be displayed when doing ll or ls
 export CLICOLOR=1
