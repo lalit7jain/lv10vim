@@ -8,11 +8,12 @@ autocmd! bufwritepost .vimrc source %
 "Vim / Bundle Basic config -----------------------------------------------------{{{
 
 set nocompatible               " be iMproved
-filetype off                   " required!
-filetype plugin indent on      " required!
+filetype on                    " required!
+filetype indent on             " required!
+filetype plugin on             " required!
 set encoding=utf-8             " Necessary to show Unicode glyphs
 
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -25,10 +26,9 @@ Bundle 'gmarik/vundle'
 "  Look and feel
 " ===================================================
 
-"Vim colorscheme --------------------------------------------------------------{{{
+"Vim colorscheme and them ------------------------------------------------------{{{
 
 Bundle 'tomasr/molokai'
-"Bundle 'morhetz/gruvbox'
 
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
@@ -37,18 +37,8 @@ au InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Use original molokai background color (use 1)
 let g:molokai_original=1
-let g:molokai_original=0
 set t_Co=256
 colorscheme molokai
-
-"let g:gruvbox_bold=1
-"let g:gruvbox_italic=1
-"let g:gruvbox_underline=1
-"let g:gruvbox_undercurl=1
-
-"set t_Co=256
-"colorscheme gruvbox
-
 
 " }}}
 
@@ -59,10 +49,6 @@ colorscheme molokai
 "Vim General Settigns ---------------------------------------------------------{{{
 
 syntax on
-
-" Set a visual bell to replace the standard beep (like when ESC is pressed a
-" few times
-set novb
 
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
@@ -155,45 +141,44 @@ set wildignore+=*/coverage/*
 "  Powerline and Bufferline Settigs
 " ===================================================
 
-"Vim Powerline ---------------------------------------------------------{{{
+"Vim airline Powerline ---------------------------------------------------------{{{
 
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
+Bundle 'bling/vim-airline'
 
-set laststatus=2 " Display on 1 window also
-set showtabline=2 " Always display the tabline, even if there is only one tab.
+" Display on 1 window also
+set laststatus=2
+let g:airline_theme='powerlineish'
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+let g:airline#extensions#tabline#enabled = 1
 
-let g:Powerline_symbols = 'fancy'
+" vim-powerline symbols
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+   let g:airline_left_sep = ''
+   let g:airline_left_alt_sep = ''
+   let g:airline_right_sep = ''
+   let g:airline_right_alt_sep = ''
+   let g:airline_symbols.branch = ''
+   let g:airline_symbols.readonly = ''
+   let g:airline_symbols.linenr = ''
+   let g:airline_symbols.whitespace = 'Ξ'
+   let g:airline_symbols.paste = 'ρ'
+endif
 
-
-"let g:airline_theme='powerlineish'
-
-"let g:airline#extensions#tabline#enabled = 1
-
-"" vim-powerline symbols
-"if !exists('g:airline_symbols')
-   "let g:airline_symbols = {}
-   "let g:airline_left_sep = '▶'
-   "let g:airline_left_alt_sep = '»'
-   "let g:airline_right_sep = '◀'
-   "let g:airline_right_alt_sep = '«'
-   "let g:airline_symbols.branch = '⎇'
-   "let g:airline_symbols.readonly = ''
-   "let g:airline_symbols.linenr = '␤'
-   "let g:airline_symbols.whitespace = 'Ξ'
-   "let g:airline_symbols.paste = 'ρ'
-"endif
-
-"" change the text for when no branch is detected >
-"let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+" change the text for when no branch is detected >
+let g:airline#extensions#branch#empty_message = ' No Branch'
 
 
-""enable/disable virtualenv integration >
-"let g:airline#extensions#virtualenv#enabled = 1
-"let w:airline_section_x = '%{virtualenv#statusline()}'
+"enable/disable virtualenv integration >
+let g:airline#extensions#virtualenv#enabled = 1
+let w:airline_section_x = '%{virtualenv#statusline()}'
+
+"IndentationGuide <Leader>ig
+Bundle 'nathanaelkane/vim-indent-guides.git'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
 
 " }}}
 
@@ -203,7 +188,9 @@ let g:Powerline_symbols = 'fancy'
 " ===================================================
 
 "Filetype Settings -------------------------------------------------{{{
+
 if has("autocmd")
+
     "All filetypes
     "remove trailing whitespaces
     autocmd BufWritePre * :%s/\s\+$//e
@@ -218,7 +205,7 @@ if has("autocmd")
     "help in vertical split
     autocmd FileType help wincmd L
 
-    " R
+    "R
     autocmd FileType r setlocal ts=8 sts=4 sw=4 expandtab
 
     "Html
@@ -236,14 +223,14 @@ if has("autocmd")
           " autocmd FileType python set colorcolumn=80
     endif
 
-    "Css
+    "CSS
     autocmd Filetype css set omnifunc=csscomplete#CompleteCSS
 
-    "Javascript
+    "JS
     autocmd Filetype javascript setlocal ts=4 sts=4 sw=4 expandtab
     autocmd BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 
-    "Json
+    "JSON
     autocmd BufNewFile,BufRead *.json setfiletype json
 
     "Processing
@@ -257,8 +244,13 @@ if has("autocmd")
     autocmd BufNewFile,BufRead SConstruct set filetype=scons
 
     "C++11
-    autocmd BufNewFile,BufRead *.cpp set syntax=cpp11
-    autocmd BufNewFile,BufRead *.hpp set syntax=cpp11
+    autocmd BufNewFile,BufRead *.cpp set syntax=cpp
+    autocmd BufNewFile,BufRead *.hpp set syntax=cpp
+
+    "Racket
+    autocmd BufNewFile,BufRead *.rkt,*.rktl set filetype=racket
+    autocmd filetype racket set lisp
+    autocmd filetype racket set autoindent
 
 endif
 
@@ -333,6 +325,15 @@ let g:jedi#popup_on_dot = 0
 " }}}
 
 
+"Racket Settings/Plugins ------------------------------------------------------ {{{
+"
+" mixing of racket code with plain text using an at-expression syntax
+Bundle "git://github.com/vim-scripts/scribble.vim"
+Bundle "git://github.com/wlangstroth/vim-racket"
+
+" }}}
+
+
 "NerdTree Plugin---------------------------------------------------- {{{
 Bundle 'scrooloose/nerdtree'
 
@@ -357,7 +358,6 @@ if has("autocmd")
 endif
 
 " }}}
-
 
 
 "Git plugins ------------------------------------------------------------------ {{{
@@ -403,6 +403,11 @@ let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
 
+" cpp
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+
 " }}}
 
 
@@ -410,10 +415,6 @@ highlight SyntasticErrorSign guifg=white guibg=red
 
 Bundle 'scrooloose/nerdcommenter'
 
-let NERDSpaceDelims=0
-" let NERDDefaultNesting=0
-" let NERDRPlace=""
-" let NERDLPlace=" "
 
 " }}}
 
@@ -425,12 +426,5 @@ Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
 Bundle 'msanders/cocoa.vim'
 Bundle 'airblade/vim-gitgutter'
-
-"IndentationGuide <Leader>ig
-Bundle 'nathanaelkane/vim-indent-guides.git'
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
-
 
 " }}}
