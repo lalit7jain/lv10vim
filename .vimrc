@@ -7,12 +7,14 @@ autocmd! bufwritepost .vimrc source %
 
 "Vim / Bundle Basic config -----------------------------------------------------{{{
 
+syntax on
+"set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME
 set nocompatible               " be iMproved
-filetype off                   " required!
+filetype on                    " required!
 filetype plugin indent on      " required!
 set encoding=utf-8             " Necessary to show Unicode glyphs
 
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -25,10 +27,10 @@ Bundle 'gmarik/vundle'
 "  Look and feel
 " ===================================================
 
-"Vim colorscheme --------------------------------------------------------------{{{
+"Vim colorscheme and them ------------------------------------------------------{{{
 
-Bundle 'tomasr/molokai'
-"Bundle 'morhetz/gruvbox'
+"Bundle 'tomasr/molokai'
+Bundle 'nanotech/jellybeans.vim.git'
 
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
@@ -36,19 +38,16 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Use original molokai background color (use 1)
-let g:molokai_original=1
-let g:molokai_original=0
+"let g:molokai_original=1
 set t_Co=256
-colorscheme molokai
+"colorscheme molokai
+colorscheme jellybeans
 
-"let g:gruvbox_bold=1
-"let g:gruvbox_italic=1
-"let g:gruvbox_underline=1
-"let g:gruvbox_undercurl=1
-
-"set t_Co=256
-"colorscheme gruvbox
-
+let g:jellybeans_overrides = {
+    \ 'Todo': {'guifg': '303030', 'guibg': 'f0f000',
+    \          'ctermfg': 'Black', 'ctermbg': 'Yellow',
+    \          'attr': 'bold'},
+\}
 
 " }}}
 
@@ -58,17 +57,15 @@ colorscheme molokai
 
 "Vim General Settigns ---------------------------------------------------------{{{
 
-syntax on
-
-" Set a visual bell to replace the standard beep (like when ESC is pressed a
-" few times
-set novb
-
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F2>
 set clipboard=unnamed
+
+" Use Ctrl+c and Ctrl+p for copy/paste in vim to/from the System's Clipboard
+vmap <C-c> "*y
+vmap <C-p> "*p
 
 
 " Mouse and backspace
@@ -155,45 +152,44 @@ set wildignore+=*/coverage/*
 "  Powerline and Bufferline Settigs
 " ===================================================
 
-"Vim Powerline ---------------------------------------------------------{{{
+"Vim airline Powerline ---------------------------------------------------------{{{
 
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
+Bundle 'bling/vim-airline'
 
-set laststatus=2 " Display on 1 window also
-set showtabline=2 " Always display the tabline, even if there is only one tab.
+" Display on 1 window also
+set laststatus=2
+let g:airline_theme='powerlineish'
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+let g:airline#extensions#tabline#enabled = 1
 
-let g:Powerline_symbols = 'fancy'
+" vim-powerline symbols
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+   let g:airline_left_sep = '⮀'
+   let g:airline_left_alt_sep = '⮁'
+   let g:airline_right_sep = '⮂'
+   let g:airline_right_alt_sep = '⮃'
+   let g:airline_symbols.branch = '⭠'
+   let g:airline_symbols.readonly = ''
+   let g:airline_symbols.linenr = '⭡'
+   let g:airline_symbols.whitespace = 'Ξ'
+   let g:airline_symbols.paste = 'ρ'
+endif
 
-
-"let g:airline_theme='powerlineish'
-
-"let g:airline#extensions#tabline#enabled = 1
-
-"" vim-powerline symbols
-"if !exists('g:airline_symbols')
-   "let g:airline_symbols = {}
-   "let g:airline_left_sep = '▶'
-   "let g:airline_left_alt_sep = '»'
-   "let g:airline_right_sep = '◀'
-   "let g:airline_right_alt_sep = '«'
-   "let g:airline_symbols.branch = '⎇'
-   "let g:airline_symbols.readonly = ''
-   "let g:airline_symbols.linenr = '␤'
-   "let g:airline_symbols.whitespace = 'Ξ'
-   "let g:airline_symbols.paste = 'ρ'
-"endif
-
-"" change the text for when no branch is detected >
-"let g:airline#extensions#branch#empty_message = '⎇  No Branch'
+" change the text for when no branch is detected >
+let g:airline#extensions#branch#empty_message = '⎇  No Branch'
 
 
-""enable/disable virtualenv integration >
-"let g:airline#extensions#virtualenv#enabled = 1
-"let w:airline_section_x = '%{virtualenv#statusline()}'
+"enable/disable virtualenv integration >
+let g:airline#extensions#virtualenv#enabled = 1
+let w:airline_section_x = '%{virtualenv#statusline()}'
+
+"IndentationGuide <Leader>ig
+Bundle 'nathanaelkane/vim-indent-guides.git'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
 
 " }}}
 
@@ -257,13 +253,17 @@ if has("autocmd")
     autocmd BufNewFile,BufRead SConstruct set filetype=scons
 
     "C++11
-    autocmd BufNewFile,BufRead *.cpp set syntax=cpp11
-    autocmd BufNewFile,BufRead *.hpp set syntax=cpp11
+    autocmd BufNewFile,BufRead *.cpp set syntax=cpp
+    autocmd BufNewFile,BufRead *.hpp set syntax=cpp
+
+    "Racket
+    autocmd BufNewFile,BufRead *.rkt,*.rktl set filetype=racket
+    autocmd filetype racket set lisp
+    autocmd filetype racket set autoindent
 
 endif
 
 " }}}
-
 
 "Python Settings/Plugins --------------------------------------------- {{{
 
@@ -299,19 +299,27 @@ map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 let ropevim_vim_completion=1
 
 "Pep8 plugin # using flake8
-" if has('python')
-"     Bundle 'orestis/pysmell.git'
-"     if executable("pep8")
-"         Bundle 'nvie/vim-pep8.git'
-"         autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
-"     endif
-" endif
+if has('python')
+    Bundle 'orestis/pysmell.git'
+    if executable("pep8")
+        Bundle 'nvie/vim-pep8.git'
+        autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
+    endif
+endif
 
+
+" Settings for jedi-vim
 Bundle 'git://github.com/davidhalter/jedi-vim'
-"Settings for jedi-vim
+Bundle "xolox/vim-misc"
+Bundle 'xolox/vim-pyref'
 let g:jedi#usages_command = "<leader>z"
-let g:jedi#goto_definitions_command = "<leader>D"
+let g:jedi#goto_definitions_command = "<leader>g"
+let g:jedi#documentation_command = "<leader>D"
 let g:jedi#popup_on_dot = 0
+"let g:jedi#popup_select_first = 1
+
+"Bundle 'fs111/pydoc.vim'
+let g:pydoc_cmd='/usr/local/bin/pydoc'
 
 " Better navigating through omnicomplete option list
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
@@ -332,6 +340,22 @@ let g:jedi#popup_on_dot = 0
 
 " }}}
 
+"C++ Settings/Plugins --------------------------------------------- {{{
+
+Bundle 'octol/vim-cpp-enhanced-highlight'
+
+let g:cpp_class_scope_highlight = 1
+
+" }}}
+
+
+"Racket Settings/Plugins --------------------------------------------- {{{
+"
+" mixing of racket code with plain text using an at-expression syntax
+Bundle "git://github.com/vim-scripts/scribble.vim"
+Bundle "git://github.com/wlangstroth/vim-racket"
+
+" }}}
 
 "NerdTree Plugin---------------------------------------------------- {{{
 Bundle 'scrooloose/nerdtree'
@@ -357,7 +381,6 @@ if has("autocmd")
 endif
 
 " }}}
-
 
 
 "Git plugins ------------------------------------------------------------------ {{{
@@ -387,50 +410,61 @@ endif
 " }}}
 
 
-" Syntastic plugin --------------------------------------------------------- {{{
+" Syntastic plugin ---------------------------------------------------------{{{
 
 Bundle 'scrooloose/syntastic.git'
- "checks syntax for multiple file type install
- "   - cpp , c g++, gcc
- "   - flake8 or pyflakes or pylint for python
- "   - jsonlint for json
- "   - java ?? / use eclim
- "   - jslint for javascript
-
+"checks syntax for multiple file type install
+"   - cpp , c g++, gcc
+"   - flake8 or pyflakes or pylint for python
+"   - jsonlint for json
+"   - java ?? / use eclim
+"   - jslint for javascript
+"
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
 
-" }}}
+" c++
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+ " }}}
 
 
 " NerdCommenter plugin --------------------------------------------------------- {{{
 
 Bundle 'scrooloose/nerdcommenter'
 
-let NERDSpaceDelims=0
-" let NERDDefaultNesting=0
-" let NERDRPlace=""
-" let NERDLPlace=" "
 
 " }}}
 
+" Neocomplete plugin --------------------------------------------{{{
+
+Bundle 'Shougo/neocomplcache.git'
+
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" " AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"}}}
 
 "other ------------------------------------------------------------------ {{{
 
 Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
-Bundle 'msanders/cocoa.vim'
 Bundle 'airblade/vim-gitgutter'
-
-"IndentationGuide <Leader>ig
-Bundle 'nathanaelkane/vim-indent-guides.git'
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#998f84 ctermbg=245
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
-
 
 " }}}
