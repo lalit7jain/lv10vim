@@ -14,7 +14,7 @@ filetype on                    " required!
 filetype plugin indent on      " required!
 set encoding=utf-8             " Necessary to show Unicode glyphs
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -29,25 +29,17 @@ Bundle 'gmarik/vundle'
 
 "Vim colorscheme and them ------------------------------------------------------{{{
 
-"Bundle 'tomasr/molokai'
-Bundle 'nanotech/jellybeans.vim.git'
-
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
-" Use original molokai background color (use 1)
-"let g:molokai_original=1
 set t_Co=256
-"colorscheme molokai
-colorscheme jellybeans
 
-let g:jellybeans_overrides = {
-    \ 'Todo': {'guifg': '303030', 'guibg': 'f0f000',
-    \          'ctermfg': 'Black', 'ctermbg': 'Yellow',
-    \          'attr': 'bold'},
-\}
+" Solarized docs: http://ethanschoonover.com/solarized/vim-colors-solarized
+let g:solarized_termcolors=256
+set background=dark
+colorscheme solarized
 
 " }}}
 
@@ -466,5 +458,13 @@ Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
 Bundle 'airblade/vim-gitgutter'
+
+" }}}
+
+"Snipets Templates  ------------------------------------------------------------------ {{{
+
+"Bundle 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+"Bundle 'honza/vim-snippets'
 
 " }}}
