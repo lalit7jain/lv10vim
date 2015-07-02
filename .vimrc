@@ -306,7 +306,7 @@ Bundle "xolox/vim-misc"
 Bundle 'xolox/vim-pyref'
 let g:jedi#usages_command = "<leader>z"
 let g:jedi#goto_definitions_command = "<leader>g"
-let g:jedi#documentation_command = "<leader>D"
+let g:jedi#documentation_command = "<leader>d"
 let g:jedi#popup_on_dot = 0
 "let g:jedi#popup_select_first = 1
 
@@ -350,9 +350,10 @@ Bundle "git://github.com/wlangstroth/vim-racket"
 " }}}
 
 "NerdTree Plugin---------------------------------------------------- {{{
+
 Bundle 'scrooloose/nerdtree'
 
-nmap <silent><Leader>d  :NERDTreeToggle<CR>
+nmap <silent><Leader>x  :NERDTreeToggle<CR>
 nmap <silent><leader>nf :NERDTreeFind<CR>
 
 let g:NERDTreeWinPos = "left"
@@ -458,13 +459,5 @@ Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
 Bundle 'airblade/vim-gitgutter'
-
-" }}}
-
-"Snipets Templates  ------------------------------------------------------------------ {{{
-
-"Bundle 'SirVer/ultisnips'
-" Snippets are separated from the engine. Add this if you want them:
-"Bundle 'honza/vim-snippets'
 
 " }}}
