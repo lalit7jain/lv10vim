@@ -335,7 +335,7 @@ Bundle "git://github.com/wlangstroth/vim-racket"
 "NerdTree Plugin---------------------------------------------------- {{{
 Bundle 'scrooloose/nerdtree'
 
-nmap <silent><Leader>d  :NERDTreeToggle<CR>
+nmap <silent><Leader>x  :NERDTreeToggle<CR>
 nmap <silent><leader>nf :NERDTreeFind<CR>
 
 let g:NERDTreeWinPos = "left"
