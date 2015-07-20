@@ -28,17 +28,15 @@ Bundle 'gmarik/vundle'
 
 "Vim colorscheme and them ------------------------------------------------------{{{
 
-Bundle 'tomasr/molokai'
-
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
-" Use original molokai background color (use 1)
-let g:molokai_original=1
-set t_Co=256
-colorscheme molokai
+"solarized docs: http://ethanschoonover.com/solarized/vim-colors-solarized
+colorscheme solarized
+let g:solarized_termcolors=256
+set background=dark
 
 " }}}
 
@@ -48,7 +46,7 @@ colorscheme molokai
 
 "Vim General Settigns ---------------------------------------------------------{{{
 
-syntax on
+syntax enable
 
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
