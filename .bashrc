@@ -62,7 +62,7 @@ purple=$(tput setaf 5)
 white=$(tput setaf 7)
 gray="\e[01;30m"
 
-export PS1="\[$(tput bold)\]\[$gray\]\A \[$gray\][\[$green\]\u\[$red\]@\[$green\]\h\[$red\]: \[$blue\]\W\[$gray\]]\[$blue\]\n\\$ \[$(tput sgr0)\]"
+export PS1="\[$(tput bold)\]\[$gray\]\A \[$gray\][\[$blue\]\u\[$red\]@\[$blue\]\h\[$red\]: \[$green\]\W\[$gray\]]\[$blue\]\n\\$ \[$(tput sgr0)\]"
 
 #if [ "$color_prompt" = yes ]; then
 #    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
