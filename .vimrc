@@ -147,7 +147,8 @@ set wildignore+=*/coverage/*
 "Vim airline Powerline ---------------------------------------------------------{{{
 
 "Bundle 'Lokaltog/vim-powerline'
-Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 
 " Display on 1 window also
 set laststatus=2
@@ -158,15 +159,17 @@ let g:airline#extensions#tabline#enabled = 1
 " vim-powerline symbols
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
-   let g:airline_left_sep = '⮀'
-   let g:airline_left_alt_sep = '⮁'
-   let g:airline_right_sep = '⮂'
-   let g:airline_right_alt_sep = '⮃'
-   let g:airline_symbols.branch = '⭠'
+   let g:airline_left_sep = '»'
+   let g:airline_left_sep = '▶'
+   let g:airline_right_sep = '«'
+   let g:airline_right_sep = '◀'
+   let g:airline_symbols.crypt = '🔒'
+   let g:airline_symbols.branch = '⎇'
    let g:airline_symbols.readonly = ''
-   let g:airline_symbols.linenr = '⭡'
+   let g:airline_symbols.linenr = '␤'
    let g:airline_symbols.whitespace = 'Ξ'
    let g:airline_symbols.paste = 'ρ'
+   let g:airline_symbols.maxlinenr = '☰'
 endif
 
 " change the text for when no branch is detected >
