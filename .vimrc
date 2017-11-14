@@ -7,13 +7,14 @@ autocmd! bufwritepost .vimrc source %
 
 "Vim / Bundle Basic config -----------------------------------------------------{{{
 
+syntax on
+"set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME
 set nocompatible               " be iMproved
 filetype on                    " required!
-filetype indent on             " required!
-filetype plugin on             " required!
+filetype plugin indent on      " required!
 set encoding=utf-8             " Necessary to show Unicode glyphs
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -33,10 +34,12 @@ Bundle 'gmarik/vundle'
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
 
-"solarized docs: http://ethanschoonover.com/solarized/vim-colors-solarized
-colorscheme solarized
+set t_Co=256
+
+" Solarized docs: http://ethanschoonover.com/solarized/vim-colors-solarized
 let g:solarized_termcolors=256
 set background=dark
+colorscheme solarized
 
 " }}}
 
@@ -46,13 +49,15 @@ set background=dark
 
 "Vim General Settigns ---------------------------------------------------------{{{
 
-syntax enable
-
 " Better copy & paste
 " When you want to paste large blocks of code into vim, press F2 before you
 " paste. At the bottom you should see ``-- INSERT (paste) --``.
 set pastetoggle=<F2>
 set clipboard=unnamed
+
+" Use Ctrl+c and Ctrl+p for copy/paste in vim to/from the System's Clipboard
+vmap <C-c> "*y
+vmap <C-p> "*p
 
 
 " Mouse and backspace
@@ -142,7 +147,8 @@ set wildignore+=*/coverage/*
 "Vim airline Powerline ---------------------------------------------------------{{{
 
 "Bundle 'Lokaltog/vim-powerline'
-Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 
 " Display on 1 window also
 set laststatus=2
@@ -157,15 +163,17 @@ if !exists('g:airline_symbols')
    let g:airline_left_sep = '▶'
    let g:airline_right_sep = '«'
    let g:airline_right_sep = '◀'
+   let g:airline_symbols.crypt = '🔒'
    let g:airline_symbols.branch = '⎇'
-   let g:airline_symbols.readonly = '🔒'
+   let g:airline_symbols.readonly = ''
    let g:airline_symbols.linenr = '␤'
    let g:airline_symbols.whitespace = 'Ξ'
    let g:airline_symbols.paste = 'ρ'
+   let g:airline_symbols.maxlinenr = '☰'
 endif
 
 " change the text for when no branch is detected >
-let g:airline#extensions#branch#empty_message = ' No Branch'
+let g:airline#extensions#branch#empty_message = '⎇  No Branch'
 
 
 "enable/disable virtualenv integration >
@@ -186,9 +194,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
 " ===================================================
 
 "Filetype Settings -------------------------------------------------{{{
-
 if has("autocmd")
-
     "All filetypes
     "remove trailing whitespaces
     autocmd BufWritePre * :%s/\s\+$//e
@@ -203,7 +209,7 @@ if has("autocmd")
     "help in vertical split
     autocmd FileType help wincmd L
 
-    "R
+    " R
     autocmd FileType r setlocal ts=8 sts=4 sw=4 expandtab
 
     "Html
@@ -221,14 +227,14 @@ if has("autocmd")
           " autocmd FileType python set colorcolumn=80
     endif
 
-    "CSS
+    "Css
     autocmd Filetype css set omnifunc=csscomplete#CompleteCSS
 
-    "JS
+    "Javascript
     autocmd Filetype javascript setlocal ts=4 sts=4 sw=4 expandtab
     autocmd BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 
-    "JSON
+    "Json
     autocmd BufNewFile,BufRead *.json setfiletype json
 
     "Processing
@@ -245,15 +251,9 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.cpp set syntax=cpp
     autocmd BufNewFile,BufRead *.hpp set syntax=cpp
 
-    "Racket
-    autocmd BufNewFile,BufRead *.rkt,*.rktl set filetype=racket
-    autocmd filetype racket set lisp
-    autocmd filetype racket set autoindent
-
 endif
 
 " }}}
-
 
 "Python Settings/Plugins --------------------------------------------- {{{
 
@@ -289,50 +289,48 @@ map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 let ropevim_vim_completion=1
 
 "Pep8 plugin # using flake8
-" if has('python')
-"     Bundle 'orestis/pysmell.git'
-"     if executable("pep8")
-"         Bundle 'nvie/vim-pep8.git'
-"         autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
-"     endif
-" endif
+if has('python')
+    Bundle 'orestis/pysmell.git'
+    if executable("pep8")
+        Bundle 'nvie/vim-pep8.git'
+        autocmd FileType python map <buffer> <Leader>p :call Pep8()<CR>
+    endif
+endif
 
-Bundle 'git://github.com/davidhalter/jedi-vim'
-"Settings for jedi-vim
+
+" Settings for jedi-vim
+"Bundle 'git://github.com/davidhalter/jedi-vim'
+Bundle 'davidhalter/jedi-vim'
+Bundle "xolox/vim-misc"
+Bundle 'xolox/vim-pyref'
 let g:jedi#usages_command = "<leader>z"
-let g:jedi#goto_definitions_command = "<leader>D"
+let g:jedi#goto_definitions_command = "<leader>g"
+let g:jedi#documentation_command = "<leader>d"
 let g:jedi#popup_on_dot = 0
+"let g:jedi#popup_select_first = 1
 
-" Better navigating through omnicomplete option list
-" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-"set completeopt=longest,menuone
-"function! OmniPopup(action)
-"    if pumvisible()
-"        if a:action == 'j'
-"            return "\<C-N>"
-"        elseif a:action == 'k'
-"            return "\<C-P>"
-"        endif
-"    endif
-"    return a:action
-"endfunction
-"
-"inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-"inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+"Bundle 'fs111/pydoc.vim'
+let g:pydoc_cmd='/usr/local/bin/pydoc'
+
+" Python code folding
+Bundle 'tmhedberg/SimpylFold'
+let g:SimpylFold_fold_import = 0
+let g:SimpylFold_fold_docstring = 0
+
 
 " }}}
 
+"C++ Settings/Plugins --------------------------------------------- {{{
 
-"Racket Settings/Plugins ------------------------------------------------------ {{{
-"
-" mixing of racket code with plain text using an at-expression syntax
-Bundle "git://github.com/vim-scripts/scribble.vim"
-Bundle "git://github.com/wlangstroth/vim-racket"
+Bundle 'octol/vim-cpp-enhanced-highlight'
+
+let g:cpp_class_scope_highlight = 1
 
 " }}}
 
 
 "NerdTree Plugin---------------------------------------------------- {{{
+
 Bundle 'scrooloose/nerdtree'
 
 nmap <silent><Leader>x  :NERDTreeToggle<CR>
@@ -385,28 +383,27 @@ endif
 " }}}
 
 
-" Syntastic plugin --------------------------------------------------------- {{{
+" Syntastic plugin ---------------------------------------------------------{{{
 
 Bundle 'scrooloose/syntastic.git'
- "checks syntax for multiple file type install
- "   - cpp , c g++, gcc
- "   - flake8 or pyflakes or pylint for python
- "   - jsonlint for json
- "   - java ?? / use eclim
- "   - jslint for javascript
-
+"checks syntax for multiple file type install
+"   - cpp , c g++, gcc
+"   - flake8 or pyflakes or pylint for python
+"   - jsonlint for json
+"   - java ?? / use eclim
+"   - jslint for javascript
+"
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_python_checkers=['flake8', 'pyflakes']
 
 highlight SyntasticErrorSign guifg=white guibg=red
 
-" cpp
+" c++
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
-
-" }}}
+ " }}}
 
 
 " NerdCommenter plugin --------------------------------------------------------- {{{
@@ -416,13 +413,31 @@ Bundle 'scrooloose/nerdcommenter'
 
 " }}}
 
+" Neocomplete plugin --------------------------------------------{{{
+
+Bundle 'Shougo/neocomplcache.git'
+
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" " AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"}}}
 
 "other ------------------------------------------------------------------ {{{
 
 Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'IndexedSearch'
 Bundle 'leshill/vim-json'
-Bundle 'msanders/cocoa.vim'
 Bundle 'airblade/vim-gitgutter'
 
 " }}}
