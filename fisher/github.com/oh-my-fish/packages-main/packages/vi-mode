@@ -1,0 +1,3 @@
+type = plugin
+repository = https://github.com/oh-my-fish/plugin-vi-mode
+description = Basic vi key bindings emulation for fish.

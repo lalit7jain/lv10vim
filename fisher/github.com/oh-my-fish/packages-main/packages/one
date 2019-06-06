@@ -1,0 +1,4 @@
+type = theme
+repository = https://github.com/rdev/omf-theme-one
+maintainer = Max Rovensky <rdev@users.noreply.github.com>
+description = Clean yet informative Fish theme
