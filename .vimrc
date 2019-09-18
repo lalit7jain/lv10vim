@@ -194,7 +194,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#d9cec3 ctermbg=252
 " ===================================================
 
 "Filetype Settings -------------------------------------------------{{{
-
 if has("autocmd")
     "All filetypes
     "remove trailing whitespaces
@@ -256,7 +255,6 @@ endif
 
 " }}}
 
-
 "Python Settings/Plugins --------------------------------------------- {{{
 
 function! PythonTidySaver()
@@ -299,21 +297,20 @@ if has('python')
     endif
 endif
 
+" Python Black
+Bundle 'psf/black'
+
 
 " Settings for jedi-vim
 "Bundle 'git://github.com/davidhalter/jedi-vim'
 Bundle 'davidhalter/jedi-vim'
 Bundle "xolox/vim-misc"
 Bundle 'xolox/vim-pyref'
-
-autocmd FileType python setlocal completeopt-=preview
-
 let g:jedi#usages_command = "<leader>z"
 let g:jedi#goto_definitions_command = "<leader>g"
 let g:jedi#documentation_command = "<leader>d"
-let g:jedi#popup_select_first = 1
-
-
+let g:jedi#popup_on_dot = 0
+"let g:jedi#popup_select_first = 1
 
 "Bundle 'fs111/pydoc.vim'
 let g:pydoc_cmd='/usr/local/bin/pydoc'
@@ -326,7 +323,6 @@ let g:SimpylFold_fold_docstring = 0
 
 " }}}
 
-
 "C++ Settings/Plugins --------------------------------------------- {{{
 
 Bundle 'octol/vim-cpp-enhanced-highlight'
@@ -335,12 +331,19 @@ let g:cpp_class_scope_highlight = 1
 
 " }}}
 
-" Markdown Settings/Plugins --------------------------------------- {{{
-Bundle 'godlygeek/tabular'
-Bundle 'plasticboy/vim-markdown'
+"VueJS Settings/Plugins --------------------------------------------- {{{
 
-let g:vim_markdown_fenced_languages = ['python=py', 'bash=sh']
+Bundle 'posva/vim-vue'
+
+" Make sure the syntax highligthing doesn't randomly stop working
+autocmd FileType vue syntax sync fromstart
+
+" Use existing JS and HTML highlighting with vue files
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
+
+
 " }}}
+
 
 "NerdTree Plugin---------------------------------------------------- {{{
 
@@ -370,7 +373,6 @@ endif
 
 
 "Git plugins ------------------------------------------------------------------ {{{
-"
 "fugitive
 Bundle 'tpope/vim-fugitive'
 
@@ -424,14 +426,27 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 Bundle 'scrooloose/nerdcommenter'
 
+
 " }}}
 
-" Enable omni completion  ------------------------------------------------------ {{{
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" Neocomplete plugin --------------------------------------------{{{
+
+Bundle 'Shougo/neocomplcache.git'
+
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" " AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+
+" Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "}}}
 
 "other ------------------------------------------------------------------ {{{
