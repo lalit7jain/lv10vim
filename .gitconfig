@@ -19,6 +19,7 @@
     pp = show --name-status
     ppo = show --name-status --oneline
     who = shortlog -s --
+	quick-stats = ! /usr/local/bin/git-quick-stats
 
 
 [color]
@@ -33,11 +34,7 @@
 
 [core]
     editor = vim
-    excludesfile = /home/luis/.gitignore
+	excludesfile = /Users/lv10/.gitignore
 
-[push]
-    # requires git > 1.8.0
-    # default = simple
-
-# [credential]
-#	helper = cache --timeout=3600
+[includeIf "gitdir:/Users/lv10/dev/projects/chewy/"]
+    path = ~/dev/projects/chewy/.gitconfig

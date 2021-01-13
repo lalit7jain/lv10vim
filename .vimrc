@@ -159,12 +159,12 @@ let g:airline#extensions#tabline#enabled = 1
 " vim-powerline symbols
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
-   let g:airline_left_sep = '»'
-   let g:airline_left_sep = '▶'
-   let g:airline_right_sep = '«'
-   let g:airline_right_sep = '◀'
+   let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
    let g:airline_symbols.crypt = '🔒'
-   let g:airline_symbols.branch = '⎇'
    let g:airline_symbols.readonly = ''
    let g:airline_symbols.linenr = '␤'
    let g:airline_symbols.whitespace = 'Ξ'
@@ -260,7 +260,10 @@ endif
 
 " }}}
 
+
 "Python Settings/Plugins --------------------------------------------- {{{
+
+Bundle 'psf/black'
 
 function! PythonTidySaver()
     let oldpos=getpos('.')
@@ -335,6 +338,7 @@ let g:pydoc_cmd='/usr/local/bin/pydoc'
 
 " }}}
 
+
 "C++ Settings/Plugins --------------------------------------------- {{{
 
 Bundle 'octol/vim-cpp-enhanced-highlight'
@@ -343,14 +347,6 @@ let g:cpp_class_scope_highlight = 1
 
 " }}}
 
-
-"Racket Settings/Plugins --------------------------------------------- {{{
-"
-" mixing of racket code with plain text using an at-expression syntax
-Bundle "git://github.com/vim-scripts/scribble.vim"
-Bundle "git://github.com/wlangstroth/vim-racket"
-
-" }}}
 
 "NerdTree Plugin---------------------------------------------------- {{{
 
@@ -436,6 +432,7 @@ Bundle 'scrooloose/nerdcommenter'
 
 " }}}
 
+
 " Neocomplete plugin --------------------------------------------{{{
 
 Bundle 'Shougo/neocomplcache.git'
@@ -455,6 +452,7 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "}}}
+
 
 "other ------------------------------------------------------------------ {{{
 
